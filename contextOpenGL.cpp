@@ -4,8 +4,8 @@
     #include <iostream>
 #endif
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+//#include <glad/glad.h>
+//#include <GLFW/glfw3.h>
 
 #include <cassert>
 
@@ -26,6 +26,7 @@ extern "C" {
 #endif
 #endif
 
+using namespace GfxAPI;
 
 namespace {
     static void framebufferSizeCallback( GLFWwindow* window, int width, int height ) {
@@ -90,11 +91,15 @@ namespace {
 #endif
 } // namespace
 
+ContextOpenGL::ContextOpenGL() 
+    : mpWindow( nullptr ) 
+{}
+
 ContextOpenGL::~ContextOpenGL() {
     glfwTerminate();
 }
 
-const Status_t ContextOpenGL::init( const ContextOpenGL::Settings_t& settings ) {
+const eRetVal ContextOpenGL::init( const ContextOpenGL::Settings_t& settings ) {
 
     //ImGui_ImplWin32_EnableDpiAwareness();
 
@@ -120,13 +125,13 @@ const Status_t ContextOpenGL::init( const ContextOpenGL::Settings_t& settings ) 
     mpWindow = glfwCreateWindow( settings.windowW, settings.windowH, settings.windowTitle.c_str(), nullptr, nullptr);
     if ( mpWindow == nullptr ) {
         glfwTerminate();
-        return Status_t::ERROR( "Failed to create GLFW window" );
+        return eRetVal::ERROR;//( "Failed to create GLFW window" );
     }
     glfwMakeContextCurrent( reinterpret_cast< GLFWwindow* >( mpWindow ) );
     glfwSetFramebufferSizeCallback( reinterpret_cast< GLFWwindow* >( mpWindow ), framebufferSizeCallback );
 
     if ( !gladLoadGLLoader( reinterpret_cast< GLADloadproc >( glfwGetProcAddress ) ) ) {
-        return Status_t::ERROR( "Failed to initialize GLAD" );
+        return eRetVal::ERROR;//( "Failed to initialize GLAD" );
     }
 
 #if defined( DEBUG ) // && !defined( __APPLE__ ) 
@@ -180,8 +185,8 @@ const Status_t ContextOpenGL::init( const ContextOpenGL::Settings_t& settings ) 
         glfwGetFramebufferSize( reinterpret_cast< GLFWwindow* >( mpWindow ), &fbWidth, &fbHeight);
         printf( "glfwGetFramebufferSize(): %d x %d\n", fbWidth, fbHeight );
 
-        glViewport( 0, 0, settings.windowW * sx, settings.windowH * sy );
+        glViewport( 0, 0, settings.windowW * static_cast<GLsizei>( sx + 0.5f ), settings.windowH * static_cast<GLsizei>( sy + 0.5f ) );
     }
 
-    return Status_t::OK();
+    return eRetVal::OK;
 }

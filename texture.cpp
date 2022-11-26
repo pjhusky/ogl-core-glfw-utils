@@ -1,11 +1,13 @@
 #include "texture.h"
-#include "statusType.h"
-#include "gfxUtils.h"
+#include "eRetVal_GfxAPI.h"
+#include "checkErrorGL.h"
 
 #include <glad/glad.h>
 
 #include <string.h> // for memcpy & memset
 #include <cassert>
+
+using namespace GfxAPI;
 
 Texture::Texture( const Desc_t& desc ) {
     commonCtor();
@@ -55,7 +57,7 @@ int32_t Texture::formatFromDesc() {
     return -1;
 }
 
-Status_t Texture::create( const Desc_t& desc ) {
+eRetVal Texture::create( const Desc_t& desc ) {
     mDesc = desc;
     glCheckError();
 
@@ -135,18 +137,18 @@ Status_t Texture::create( const Desc_t& desc ) {
 
     mIsValid = true;
 
-    return Status_t::OK();
+    return eRetVal::OK();
 }
 
-Status_t Texture::destroy() {
-    if (mHandle == 0) { return Status_t::OK(); }
+eRetVal Texture::destroy() {
+    if (mHandle == 0) { return eRetVal::OK(); }
 
     glDeleteTextures( 1, reinterpret_cast< GLuint* >( &mHandle ) );
     mIsValid = false;
     memset( &mHandle, 0, sizeof( mHandle ) );
     mHandle = -1;
 
-    return Status_t::OK();
+    return eRetVal::OK();
 }
 
 void Texture::bindToTexUnit( const int32_t texUnit ) {

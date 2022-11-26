@@ -5,29 +5,31 @@
 #include <string>
 #include <cstdint>
 
-#include <glad/glad.h>
+#include "eRetVal_GfxAPI.h"
 
-#include "statusType.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
+namespace GfxAPI {
+    struct ContextOpenGL {
 
-struct ContextOpenGL {
+        ContextOpenGL();
+        ~ContextOpenGL();
 
-    ~ContextOpenGL();
+        struct Settings_t {
+            int32_t     windowW;
+            int32_t     windowH;
+            int32_t     glMajor;
+            int32_t     glMinor;
+            std::string windowTitle;
+        };
 
-    struct Settings_t {
-        int32_t     windowW;
-        int32_t     windowH;
-        int32_t     glMajor;
-        int32_t     glMinor;
-        std::string windowTitle;
-    };
+        const eRetVal init( const Settings_t& settings );
 
-    const Status_t init( const Settings_t& settings );
-
-    void *const window() const { return mpWindow; }
+        void* const window() const { return mpWindow; }
 
     private:
-    void* mpWindow;
-};
-
+        void* mpWindow;
+    };
+}
 #endif // _CONTEXT_OPENGL_H_0277146d_c31c_426c_963a_55054ce367f3
