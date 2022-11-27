@@ -3,6 +3,8 @@
 
 #include "eRetVal_GfxAPI.h"
 
+#include <stddef.h>
+#include <stdint.h>
 #include <array>
 
 namespace GfxAPI {

@@ -137,18 +137,18 @@ eRetVal Texture::create( const Desc_t& desc ) {
 
     mIsValid = true;
 
-    return eRetVal::OK();
+    return eRetVal::OK;
 }
 
 eRetVal Texture::destroy() {
-    if (mHandle == 0) { return eRetVal::OK(); }
+    if (mHandle == 0) { return eRetVal::OK; }
 
     glDeleteTextures( 1, reinterpret_cast< GLuint* >( &mHandle ) );
     mIsValid = false;
     memset( &mHandle, 0, sizeof( mHandle ) );
     mHandle = -1;
 
-    return eRetVal::OK();
+    return eRetVal::OK;
 }
 
 void Texture::bindToTexUnit( const int32_t texUnit ) {
