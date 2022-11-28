@@ -8,6 +8,7 @@ namespace {
     static GLuint toShaderStageGL( const Shader::eShaderStage& stage ) {
         switch( stage ) {
             case Shader::eShaderStage::VS: return GL_VERTEX_SHADER;
+            case Shader::eShaderStage::GS: return GL_GEOMETRY_SHADER;
             case Shader::eShaderStage::FS: return GL_FRAGMENT_SHADER;
         }
         return GL_SHADER_UNDEFINED;

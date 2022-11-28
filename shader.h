@@ -38,6 +38,7 @@ namespace GfxAPI {
 
         enum class eShaderStage {
             VS,
+            GS,
             FS
         };
 
