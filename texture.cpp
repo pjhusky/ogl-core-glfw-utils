@@ -9,12 +9,13 @@
 
 using namespace GfxAPI;
 
-Texture::Texture( const Desc_t& desc ) {
+Texture::Texture( const Texture::Desc_t& desc ) {
     commonCtor();
     create( desc );
 }
 
 void Texture::commonCtor() {
+    // clear the entire handle mem, as the impl may only use a part of it, leaving the rest uninitialized otherwise
     memset( &mHandle, 0, sizeof( mHandle ) );
     mBoundTexUnit = -1;
     mIsValid = false;
@@ -22,39 +23,6 @@ void Texture::commonCtor() {
 
 Texture::~Texture() {
     destroy();
-}
-
-int32_t Texture::formatFromDesc() {
-    if ( mDesc.channelType == eChannelType::i24depth ) { return GL_DEPTH_COMPONENT24; }
-    if ( mDesc.channelType == eChannelType::i32depth ) { return GL_DEPTH_COMPONENT32; }
-    if ( mDesc.channelType == eChannelType::f32depth ) { return GL_DEPTH_COMPONENT32F; }
-
-    if ( mDesc.numChannels == 1 ) {
-        if ( mDesc.channelType == eChannelType::i8 )  { return GL_R8; }
-        if ( mDesc.channelType == eChannelType::i16 ) { return GL_R16; }
-        if ( mDesc.channelType == eChannelType::i32 ) { return GL_R32I; }
-        if ( mDesc.channelType == eChannelType::f16 ) { return GL_R16F; }
-        if ( mDesc.channelType == eChannelType::f32 ) { return GL_R32F; }
-    } else if ( mDesc.numChannels == 2 ) {
-        if ( mDesc.channelType == eChannelType::i8 )  { return GL_RG8; }
-        if ( mDesc.channelType == eChannelType::i16 ) { return GL_RG16; }
-        if ( mDesc.channelType == eChannelType::i32 ) { return GL_RG32I; }
-        if ( mDesc.channelType == eChannelType::f16 ) { return GL_RG16F; }
-        if ( mDesc.channelType == eChannelType::f32 ) { return GL_RG32F; }
-    } else if ( mDesc.numChannels == 3 ) {
-        if ( mDesc.channelType == eChannelType::i8 )  { return GL_RGB8; }
-        if ( mDesc.channelType == eChannelType::i16 ) { return GL_RGB16; }
-        if ( mDesc.channelType == eChannelType::i32 ) { return GL_RGB32I; }
-        if ( mDesc.channelType == eChannelType::f16 ) { return GL_RGB16F; }
-        if ( mDesc.channelType == eChannelType::f32 ) { return GL_RGB32F; }
-    } else if ( mDesc.numChannels == 4 ) {
-        if ( mDesc.channelType == eChannelType::i8 )  { return GL_RGBA8; }
-        if ( mDesc.channelType == eChannelType::i16 ) { return GL_RGBA16; }
-        if ( mDesc.channelType == eChannelType::i32 ) { return GL_RGBA32I; }
-        if ( mDesc.channelType == eChannelType::f16 ) { return GL_RGBA16F; }
-        if ( mDesc.channelType == eChannelType::f32 ) { return GL_RGBA32F; }
-    }
-    return -1;
 }
 
 eRetVal Texture::create( const Desc_t& desc ) {

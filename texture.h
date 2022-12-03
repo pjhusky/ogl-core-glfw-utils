@@ -2,46 +2,18 @@
 #define _TEXTURE_H_76ce320f_da67_4920_b1fc_ca6232466835
 
 #include "eRetVal_GfxAPI.h"
+#include "apiAbstractions.h"
 
 #include <stddef.h>
 #include <stdint.h>
 #include <array>
 
+
+
 namespace GfxAPI {
     struct Texture {
 
-        using handle_t = intptr_t;
-
         using i32vec3_t = std::array<int32_t, 3>;
-
-        enum class eChannelType {
-            i8,
-            //u8,
-            i16,
-            i32,
-            f16,
-            f32,
-            i24depth,
-            i32depth,
-            f32depth,
-        };
-
-        enum class eSemantics { // depth and stencil can be logically OR'ed
-            color = (1u << 0u),
-            depth = (1u << 1u),
-            stencil = (1u << 2u),
-        };
-
-        enum class eBorderMode {
-            clamp,
-            repeat,
-            mirrorRepeat,
-        };
-
-        // enum class eCompareMode {
-        //     refToTexture,
-        //     none
-        // };
 
         struct Desc_t {
             i32vec3_t           texDim;
@@ -75,7 +47,7 @@ namespace GfxAPI {
 
         Desc_t desc() const { return mDesc; }
 
-        int32_t formatFromDesc();
+        int32_t formatFromDesc() { return toApiChannelType( mDesc.channelType, mDesc.numChannels ); }
 
         void bindToTexUnit( const int32_t texUnit );
         void bindDepthForVisToTexUnit( const int32_t texUnit );

@@ -8,6 +8,7 @@
 #include <array>
 
 #include "eRetVal_GfxAPI.h"
+#include "apiAbstractions.h"
 
 #define GL_SHADER_UNDEFINED 0
 
@@ -45,8 +46,8 @@ namespace GfxAPI {
         Shader();
         ~Shader();
 
-        using shaderProgramHandle_t = intptr_t;
-        using shaderStageHandle_t = intptr_t;
+        using shaderProgramHandle_t = handle_t;
+        using shaderStageHandle_t = handle_t;
         using shaderStageDesc_t = std::pair< eShaderStage, std::string >;
         using shaderStage_t = std::pair< eShaderStage, shaderStageHandle_t >;
 
