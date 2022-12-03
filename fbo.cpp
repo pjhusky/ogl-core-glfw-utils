@@ -11,13 +11,25 @@ using namespace GfxAPI;
 
 
 Fbo::Fbo( const Fbo::Desc& desc ) 
-    : mDesc( desc ) {
+    : mDesc( desc )
+    , mIsBound( false ) {
 
     // clear the entire handle mem, as the impl may only use a part of it, leaving the rest uninitialized otherwise
     memset( &mHandle, 0, sizeof( mHandle ) ); 
 
     // this step may only "fill" some of the allocated memory cell for the mHandle
     glGenFramebuffers( 1, reinterpret_cast<GLuint*>( &mHandle ) ); ( 1, reinterpret_cast<GLuint*>( &mHandle ) );
+
+    bind( false );
+}
+
+void Fbo::bind( const bool shouldBind ) {
+    if (shouldBind) {
+        glBindFramebuffer( GL_FRAMEBUFFER, mHandle );
+    } else {
+        glBindFramebuffer( GL_FRAMEBUFFER, 0 );
+    }
+    mIsBound = shouldBind;
 }
 
 Fbo::~Fbo() {

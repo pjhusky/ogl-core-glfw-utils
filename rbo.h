@@ -4,17 +4,26 @@
 #include <stdint.h>
 #include <vector>
 
+#include "apiAbstractions.h"
+
 namespace GfxAPI {
+
+    struct Fbo;
 
     struct Rbo {
 
         struct Desc {
-            std::vector< Texture* > colorAttachments;
-            Texture*                depthStencilAttachment;
+            uint32_t        w;
+            uint32_t        h;
+            int32_t         numChannels;
+            eChannelType    channelType;
+            eSemantics      semantics;
         };
 
         explicit Rbo( const Desc& desc );
         ~Rbo();
+
+        void attachToFbo( Fbo& fbo, const int32_t attachmentNumber );
 
     private:
         handle_t        mHandle;

@@ -17,9 +17,13 @@ namespace GfxAPI {
         explicit Fbo( const Desc& desc );
         ~Fbo();
 
+        void bind( const bool shouldBind );
+
+
     private:
         handle_t        mHandle;
         const Desc      mDesc;
+        bool            mIsBound;
     };
 }
 #endif // _FBO_H_616e284b_9c0b_445d_8c14_d8323b01a2d4
