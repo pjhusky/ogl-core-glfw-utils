@@ -81,10 +81,18 @@ namespace {
         } std::cerr << std::endl;
         
         switch ( severity ) {
-            case GL_DEBUG_SEVERITY_HIGH:         std::cout << "Severity: high"; break;
-            case GL_DEBUG_SEVERITY_MEDIUM:       std::cout << "Severity: medium"; break;
-            case GL_DEBUG_SEVERITY_LOW:          std::cout << "Severity: low"; break;
-            case GL_DEBUG_SEVERITY_NOTIFICATION: std::cout << "Severity: notification"; break;
+            case GL_DEBUG_SEVERITY_HIGH:         
+                std::cout << "Severity: high"; 
+                break;
+            case GL_DEBUG_SEVERITY_MEDIUM:       
+                std::cout << "Severity: medium"; 
+                break;
+            case GL_DEBUG_SEVERITY_LOW:          
+                std::cout << "Severity: low"; 
+                break;
+            case GL_DEBUG_SEVERITY_NOTIFICATION: 
+                std::cout << "Severity: notification"; 
+                break;
         } std::cerr << std::endl;
         std::cerr << std::endl << std::flush;
     }
