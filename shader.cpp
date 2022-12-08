@@ -16,15 +16,15 @@ namespace {
 
     static eRetVal checkCompileErrors( const Shader::shaderStageHandle_t& shaderHandle ) {
         GLint compileError;
-        glGetShaderiv( shaderHandle, GL_COMPILE_STATUS, &compileError );
+        glGetShaderiv( static_cast<GLuint>( shaderHandle ), GL_COMPILE_STATUS, &compileError );
         if ( compileError != GL_TRUE ) {
             GLint logLength;
-            glGetShaderiv( shaderHandle, GL_INFO_LOG_LENGTH, &logLength );
+            glGetShaderiv( static_cast<GLuint>( shaderHandle ), GL_INFO_LOG_LENGTH, &logLength );
             if ( logLength > 0 ) {
                 std::vector< char > compileLog;
                 compileLog.resize( logLength + 1 );
                 GLsizei actualLogLength;
-                glGetShaderInfoLog( shaderHandle, logLength, &actualLogLength, compileLog.data() );
+                glGetShaderInfoLog( static_cast<GLuint>( shaderHandle ), logLength, &actualLogLength, compileLog.data() );
                 if ( actualLogLength > 0 ) {
                     compileLog[ logLength ] = '\0';
                     fprintf( stderr, "compile error log:\n'%s'\n", compileLog.data() );
@@ -37,15 +37,15 @@ namespace {
 
     static eRetVal checkLinkErrors( const Shader::shaderProgramHandle_t& programHandle ) {
         GLint compileError;
-        glGetProgramiv( programHandle, GL_LINK_STATUS, &compileError );
+        glGetProgramiv( static_cast<GLuint>( programHandle ), GL_LINK_STATUS, &compileError );
         if ( compileError != GL_TRUE ) {
             GLint logLength;
-            glGetProgramiv( programHandle, GL_INFO_LOG_LENGTH, &logLength );
+            glGetProgramiv( static_cast<GLuint>( programHandle ), GL_INFO_LOG_LENGTH, &logLength );
             if ( logLength > 0 ) {
                 std::vector< char > linkLog;
                 linkLog.resize( logLength + 1 );
                 GLsizei actualLogLength;
-                glGetProgramInfoLog( programHandle, logLength, &actualLogLength, linkLog.data() );
+                glGetProgramInfoLog( static_cast<GLuint>( programHandle ), logLength, &actualLogLength, linkLog.data() );
                 if ( actualLogLength > 0 ) {
                     linkLog[ logLength ] = '\0';
                     fprintf( stderr, "link error log:\n'%s'\n", linkLog.data() );
@@ -63,9 +63,9 @@ Shader::Shader()
 
 Shader::~Shader() {
     for ( const auto& shaderStageObject : mShaderStageObjects ) {
-        glDeleteShader( shaderStageObject.second );
+        glDeleteShader( static_cast<GLuint>( shaderStageObject.second ) );
     }
-    glDeleteProgram( mShaderProgram );
+    glDeleteProgram( static_cast<GLuint>( mShaderProgram ) );
 }
 
 void Shader::addShaderStage( const Shader::eShaderStage shaderStage, const std::string& shaderStr ) {
@@ -83,16 +83,16 @@ eRetVal Shader::build() {
         mShaderStageObjects.push_back( std::make_pair( shaderStage, shaderStageHandle ) );
 
         const GLchar* shaderStringsForStage[]{ shaderStr.c_str() };
-        glShaderSource( shaderStageHandle, 1, shaderStringsForStage, nullptr );
-        glCompileShader( shaderStageHandle );
+        glShaderSource( static_cast<GLuint>( shaderStageHandle ), 1, shaderStringsForStage, nullptr );
+        glCompileShader( static_cast<GLuint>( shaderStageHandle ) );
         if ( checkCompileErrors( shaderStageHandle ) != eRetVal::OK ) { 
             return eRetVal::ERROR; 
         }
 
-        glAttachShader( mShaderProgram, shaderStageHandle );
+        glAttachShader( static_cast<GLuint>( mShaderProgram ), static_cast<GLuint>( shaderStageHandle ) );
     }
 
-    glLinkProgram( mShaderProgram );
+    glLinkProgram( static_cast<GLuint>( mShaderProgram ) );
     if (checkLinkErrors( mShaderProgram ) != eRetVal::OK ) {
         return eRetVal::ERROR;
     }
@@ -103,7 +103,7 @@ eRetVal Shader::build() {
 void Shader::use( const bool shouldUse ) {
     if ( shouldUse ) {
         mIsBound = true;
-        glUseProgram( mShaderProgram );
+        glUseProgram( static_cast<GLuint>( mShaderProgram ) );
     } else {
         mIsBound = false;
         glUseProgram( 0 );
@@ -111,35 +111,35 @@ void Shader::use( const bool shouldUse ) {
 }
 
 eRetVal Shader::setInt( const std::string& uniformVarName, const int val ) const {
-    const int32_t uniformLocation = glGetUniformLocation( mShaderProgram, uniformVarName.c_str() );
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
     if (uniformLocation < 0) { return eRetVal::ERROR; }// (uniformVarName + " not found in shader!"); }
     glUniform1i( uniformLocation, val );
     return eRetVal::OK;
 }
 
 eRetVal Shader::setFloat( const std::string& uniformVarName, const float val ) const {
-    const int32_t uniformLocation = glGetUniformLocation( mShaderProgram, uniformVarName.c_str() );
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
     if (uniformLocation < 0) { return eRetVal::ERROR; }// (uniformVarName + " not found in shader!"); }
     glUniform1f( uniformLocation, val );
     return eRetVal::OK;
 }
 
 eRetVal Shader::setVec2( const std::string& uniformVarName, const vec2_t& val ) const {
-    const int32_t uniformLocation = glGetUniformLocation( mShaderProgram, uniformVarName.c_str() );
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
     if (uniformLocation < 0) { return eRetVal::ERROR; }// (uniformVarName + " not found in shader!"); }
     glUniform2fv( uniformLocation, 1, val.data() );
     return eRetVal::OK;
 }
 
 eRetVal Shader::setVec3( const std::string& uniformVarName, const vec3_t& val ) const {
-    const int32_t uniformLocation = glGetUniformLocation( mShaderProgram, uniformVarName.c_str() );
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
     if (uniformLocation < 0) { return eRetVal::ERROR; }// (uniformVarName + " not found in shader!"); }
     glUniform3fv( uniformLocation, 1, val.data() );
     return eRetVal::OK;
 }
 
 eRetVal Shader::setVec4( const std::string& uniformVarName, const vec4_t& val ) const {
-    const int32_t uniformLocation = glGetUniformLocation( mShaderProgram, uniformVarName.c_str() );
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
     if (uniformLocation < 0) { return eRetVal::ERROR; }//( uniformVarName + " not found in shader!" ); }
     glUniform4fv( uniformLocation, 1, val.data() );
     return eRetVal::OK;
@@ -147,15 +147,15 @@ eRetVal Shader::setVec4( const std::string& uniformVarName, const vec4_t& val ) 
 
 eRetVal Shader::setVec4Array( const std::string& uniformVarName, const vec4_t* const pVec4Array, const size_t numVec4s ) const
 {
-    const int32_t uniformLocation = glGetUniformLocation( mShaderProgram, uniformVarName.c_str() );
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
     if (uniformLocation < 0) { return eRetVal::ERROR; }// (uniformVarName + " not found in shader!"); }
-    glUniform4fv( uniformLocation, numVec4s, pVec4Array->data() );
+    glUniform4fv( uniformLocation, static_cast<GLsizei>( numVec4s ), pVec4Array->data() );
     return eRetVal::OK;
 }
 
 eRetVal Shader::setMat2( const std::string& uniformVarName, const mat2_t& matrix ) const {
     const float *const pMatrix = getMatrixPtr( matrix );
-    const int32_t uniformLocation = glGetUniformLocation( mShaderProgram, uniformVarName.c_str() );
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
     if (uniformLocation < 0) { return eRetVal::ERROR; }// (uniformVarName + " not found in shader!"); }
     constexpr int32_t performTranspose = 1;
     glUniformMatrix2fv( uniformLocation, 1, performTranspose, pMatrix );
@@ -164,7 +164,7 @@ eRetVal Shader::setMat2( const std::string& uniformVarName, const mat2_t& matrix
 
 eRetVal Shader::setMat3( const std::string& uniformVarName, const mat3_t& matrix ) const {
     const float *const pMatrix = getMatrixPtr( matrix );
-    const int32_t uniformLocation = glGetUniformLocation( mShaderProgram, uniformVarName.c_str() );
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
     if (uniformLocation < 0) { return eRetVal::ERROR; }// (uniformVarName + " not found in shader!"); }
     constexpr int32_t performTranspose = 1;
     glUniformMatrix3fv( uniformLocation, 1, performTranspose, pMatrix );
@@ -173,7 +173,7 @@ eRetVal Shader::setMat3( const std::string& uniformVarName, const mat3_t& matrix
 
 eRetVal Shader::setMat3x4( const std::string& uniformVarName, const mat3x4_t& matrix ) const {
     const float *const pMatrix = getMatrixPtr( matrix );
-    const int32_t uniformLocation = glGetUniformLocation( mShaderProgram, uniformVarName.c_str() );
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
     if (uniformLocation < 0) { return eRetVal::ERROR; }// (uniformVarName + " not found in shader!"); }
     constexpr int32_t performTranspose = 1;
     glUniformMatrix3x4fv( uniformLocation, 1, performTranspose, pMatrix );
@@ -182,7 +182,7 @@ eRetVal Shader::setMat3x4( const std::string& uniformVarName, const mat3x4_t& ma
 
 eRetVal Shader::setMat4( const std::string& uniformVarName, const mat4_t& matrix ) const {
     const float *const pMatrix = getMatrixPtr( matrix );
-    const int32_t uniformLocation = glGetUniformLocation( mShaderProgram, uniformVarName.c_str() );
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
     if (uniformLocation < 0) { return eRetVal::ERROR; }// (uniformVarName + " not found in shader!"); }
     constexpr int32_t performTranspose = 1;
     glUniformMatrix4fv( uniformLocation, 1, performTranspose, pMatrix );

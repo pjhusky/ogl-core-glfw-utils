@@ -19,16 +19,16 @@ Rbo::Rbo( const Rbo::Desc& desc )
 
     // this step may only "fill" some of the allocated memory cell for the mHandle
     glGenRenderbuffers( 1, reinterpret_cast<GLuint*>( &mHandle ) );
-    glBindRenderbuffer( GL_RENDERBUFFER, mHandle );
+    glBindRenderbuffer( GL_RENDERBUFFER, static_cast<GLuint>( mHandle ) );
     glRenderbufferStorage( GL_RENDERBUFFER, toApiChannelType( mDesc.channelType, mDesc.numChannels ), mDesc.w, mDesc.h );
 }
 
 void Rbo::attachToFbo( Fbo& fbo, const int32_t attachmentNumber ) {
     fbo.bind( true );
     if (mDesc.semantics == eSemantics::color) {
-        glFramebufferRenderbuffer( GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachmentNumber, GL_RENDERBUFFER, mHandle );
+        glFramebufferRenderbuffer( GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachmentNumber, GL_RENDERBUFFER, static_cast<GLuint>(mHandle) );
     } else {
-        glFramebufferRenderbuffer( GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mHandle );
+        glFramebufferRenderbuffer( GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, static_cast<GLuint>(mHandle) );
     }
 }
 
