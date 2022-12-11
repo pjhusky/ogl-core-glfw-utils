@@ -122,12 +122,30 @@ const eRetVal ContextOpenGL::init( const ContextOpenGL::Settings_t& settings ) {
 #endif
 
     glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
-    //glfwWindowHint( GLFW_RESIZABLE, GLFW_FALSE );
     glfwWindowHint( GLFW_RESIZABLE, GLFW_TRUE );
+
+    glfwWindowHint( GLFW_DOUBLEBUFFER, GLFW_TRUE );
+    
+    glfwWindowHint( GLFW_RED_BITS, 8 );
+    glfwWindowHint( GLFW_GREEN_BITS, 8 );
+    glfwWindowHint( GLFW_BLUE_BITS, 8 );
+    glfwWindowHint( GLFW_ALPHA_BITS, 8 );
+    glfwWindowHint( GLFW_DEPTH_BITS, 24 );
+    glfwWindowHint( GLFW_STENCIL_BITS, 8 );
+
+    glfwWindowHint( GLFW_CLIENT_API, GLFW_OPENGL_API );
+    glfwWindowHint( GLFW_CONTEXT_CREATION_API, GLFW_NATIVE_CONTEXT_API );
+
+    // https://www.glfw.org/docs/latest/window_guide.html
+    //GLFW_REFRESH_RATE specifies the desired refresh rate for full screen windows.
+    //A value of GLFW_DONT_CARE means the highest available refresh rate will be used.This hint is ignored for windowed mode windows.
+    glfwWindowHint( GLFW_REFRESH_RATE, GLFW_DONT_CARE );
 
 #if defined( DEBUG ) // && !defined( __APPLE__ ) 
     printf( "DEBUG is defined!\n" ); fflush( stdout );
-    glfwWindowHint( GLFW_OPENGL_DEBUG_CONTEXT, true ); 
+    glfwWindowHint( GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE );
+#else
+    glfwWindowHint( GLFW_OPENGL_DEBUG_CONTEXT, GLFW_FALSE );
 #endif
 
     mpWindow = glfwCreateWindow( settings.windowW, settings.windowH, settings.windowTitle.c_str(), nullptr, nullptr);
