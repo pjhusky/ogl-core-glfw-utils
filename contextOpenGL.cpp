@@ -199,7 +199,7 @@ const eRetVal ContextOpenGL::init( const ContextOpenGL::Settings_t& settings ) {
         glfwGetWindowSize( reinterpret_cast< GLFWwindow* >( mpWindow ), &w, &h );
         printf( "glfwGetWindowSize(): window created: %d x %d\n", w, h ); fflush( stdout );
 
-        assert( w == settings.windowW && h == settings.windowH );
+        //assert( w == settings.windowW && h == settings.windowH );
 
         float sx, sy;
         glfwGetWindowContentScale( reinterpret_cast< GLFWwindow* >( mpWindow ), &sx, &sy );
