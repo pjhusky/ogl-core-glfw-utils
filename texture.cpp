@@ -130,7 +130,7 @@ void Texture::bindToTexUnit( const int32_t texUnit ) {
 
     glCheckError();
 
-    glBindTexture( mTexTarget, mHandle );
+    glBindTexture( mTexTarget, static_cast<GLuint>(mHandle) );
 
     glCheckError();
 
@@ -162,7 +162,7 @@ void Texture::unbindDepthForVisFromTexUnit( /* const int32_t texUnit */ ) {
     if ( mBoundTexUnit < 0 ) { return; }
 
     glActiveTexture( GL_TEXTURE0 + mBoundTexUnit );
-    glBindTexture( mTexTarget, mHandle );
+    glBindTexture( mTexTarget, static_cast<GLuint>(mHandle) );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE );
 
     glBindTexture( mTexTarget, 0 );

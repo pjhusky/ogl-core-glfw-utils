@@ -25,7 +25,7 @@ Fbo::Fbo( const Fbo::Desc& desc )
 
 void Fbo::bind( const bool shouldBind ) {
     if (shouldBind) {
-        glBindFramebuffer( GL_FRAMEBUFFER, mHandle );
+        glBindFramebuffer( GL_FRAMEBUFFER, static_cast<GLuint>(mHandle) );
     } else {
         glBindFramebuffer( GL_FRAMEBUFFER, 0 );
     }
