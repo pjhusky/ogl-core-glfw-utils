@@ -7,8 +7,10 @@
 #include <string.h> // for memcpy & memset
 #include <glad/glad.h>
 
+using namespace GfxAPI;
 
-GfxAPI::Fbo::Fbo( const Fbo::Desc& desc )
+
+Fbo::Fbo( const Fbo::Desc& desc ) 
     : mDesc( desc )
     , mIsBound( false ) {
 
@@ -21,16 +23,16 @@ GfxAPI::Fbo::Fbo( const Fbo::Desc& desc )
     bind( false );
 }
 
-void GfxAPI::Fbo::bind( const bool shouldBind ) {
+void Fbo::bind( const bool shouldBind ) {
     if (shouldBind) {
-        glBindFramebuffer( GL_FRAMEBUFFER, static_cast<GLuint>( mHandle ) );
+        glBindFramebuffer( GL_FRAMEBUFFER, static_cast<GLuint>(mHandle) );
     } else {
         glBindFramebuffer( GL_FRAMEBUFFER, 0 );
     }
     mIsBound = shouldBind;
 }
 
-GfxAPI::Fbo::~Fbo() {
+Fbo::~Fbo() {
     glDeleteFramebuffers( 1, reinterpret_cast<GLuint*>( &mHandle ) );
 }
 
