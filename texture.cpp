@@ -7,25 +7,23 @@
 #include <string.h> // for memcpy & memset
 #include <cassert>
 
-using namespace GfxAPI;
-
-Texture::Texture( const Texture::Desc_t& desc ) {
+GfxAPI::Texture::Texture( const GfxAPI::Texture::Desc_t& desc ) {
     commonCtor();
     create( desc );
 }
 
-void Texture::commonCtor() {
+void GfxAPI::Texture::commonCtor() {
     // clear the entire handle mem, as the impl may only use a part of it, leaving the rest uninitialized otherwise
     memset( &mHandle, 0, sizeof( mHandle ) );
     mBoundTexUnit = -1;
     mIsValid = false;
 }
 
-Texture::~Texture() {
+GfxAPI::Texture::~Texture() {
     destroy();
 }
 
-eRetVal Texture::create( const Desc_t& desc ) {
+GfxAPI::eRetVal GfxAPI::Texture::create( const Desc_t& desc ) {
     mDesc = desc;
     glCheckError();
 
@@ -108,7 +106,7 @@ eRetVal Texture::create( const Desc_t& desc ) {
     return eRetVal::OK;
 }
 
-eRetVal Texture::destroy() {
+GfxAPI::eRetVal GfxAPI::Texture::destroy() {
     if (mHandle == 0) { return eRetVal::OK; }
 
     glDeleteTextures( 1, reinterpret_cast< GLuint* >( &mHandle ) );
@@ -119,7 +117,7 @@ eRetVal Texture::destroy() {
     return eRetVal::OK;
 }
 
-void Texture::bindToTexUnit( const int32_t texUnit ) {
+void GfxAPI::Texture::bindToTexUnit( const int32_t texUnit ) {
     if ( mBoundTexUnit >= 0 ) {
         unbindFromTexUnit();
     }
@@ -137,12 +135,12 @@ void Texture::bindToTexUnit( const int32_t texUnit ) {
     mBoundTexUnit = texUnit;
 }
 
-void Texture::bindDepthForVisToTexUnit( const int32_t texUnit ) {
+void GfxAPI::Texture::bindDepthForVisToTexUnit( const int32_t texUnit ) {
     bindToTexUnit( texUnit );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE );
 }
 
-void Texture::unbindFromTexUnit( /* const int32_t texUnit */ ) {
+void GfxAPI::Texture::unbindFromTexUnit( /* const int32_t texUnit */ ) {
     if ( mBoundTexUnit < 0 ) { return; }
 
     glCheckError();
@@ -158,7 +156,7 @@ void Texture::unbindFromTexUnit( /* const int32_t texUnit */ ) {
     mBoundTexUnit = -1;    
 }
 
-void Texture::unbindDepthForVisFromTexUnit( /* const int32_t texUnit */ ) {
+void GfxAPI::Texture::unbindDepthForVisFromTexUnit( /* const int32_t texUnit */ ) {
     if ( mBoundTexUnit < 0 ) { return; }
 
     glActiveTexture( GL_TEXTURE0 + mBoundTexUnit );
@@ -169,7 +167,7 @@ void Texture::unbindDepthForVisFromTexUnit( /* const int32_t texUnit */ ) {
     mBoundTexUnit = -1;    
 }
 
-void Texture::createMipmaps() {
+void GfxAPI::Texture::createMipmaps() {
     if ( !mDesc.isMipMapped ) { return; }
 
     if ( mBoundTexUnit < 0 ) {
@@ -178,7 +176,7 @@ void Texture::createMipmaps() {
     glGenerateMipmap( mTexTarget );
 }
 
-void Texture::uploadData( const void* pData, uint32_t format, uint32_t type, uint32_t mipLvl ) {
+void GfxAPI::Texture::uploadData( const void* pData, uint32_t format, uint32_t type, uint32_t mipLvl ) {
     glCheckError();
     this->bindToTexUnit( 0 );
     glCheckError();
@@ -192,7 +190,7 @@ void Texture::uploadData( const void* pData, uint32_t format, uint32_t type, uin
     glCheckError();
 }
 
-void Texture::setWrapModeForDimension( eBorderMode borderMode, uint32_t dim ) {
+void GfxAPI::Texture::setWrapModeForDimension( GfxAPI::eBorderMode borderMode, uint32_t dim ) {
     glCheckError();
     this->bindToTexUnit( 0 );
     uint32_t glDim = GL_TEXTURE_WRAP_S;
@@ -226,7 +224,7 @@ void Texture::setWrapModeForDimension( eBorderMode borderMode, uint32_t dim ) {
     glCheckError();
 }
 
-void Texture::unbindAllTextures() {
+void GfxAPI::Texture::unbindAllTextures() {
     int32_t maxTextureImageUnits;
     glGetIntegerv( GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureImageUnits );
     //printf( "maxTextureImageUnits = %d\n", maxTextureImageUnits );

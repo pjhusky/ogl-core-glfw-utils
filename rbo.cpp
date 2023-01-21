@@ -8,10 +8,8 @@
 #include <string.h> // for memcpy & memset
 #include <glad/glad.h>
 
-using namespace GfxAPI;
 
-
-Rbo::Rbo( const Rbo::Desc& desc )
+GfxAPI::Rbo::Rbo( const Rbo::Desc& desc )
     : mDesc( desc ) {
 
     // clear the entire handle mem, as the impl may only use a part of it, leaving the rest uninitialized otherwise
@@ -23,7 +21,7 @@ Rbo::Rbo( const Rbo::Desc& desc )
     glRenderbufferStorage( GL_RENDERBUFFER, toApiChannelType( mDesc.channelType, mDesc.numChannels ), mDesc.w, mDesc.h );
 }
 
-void Rbo::attachToFbo( Fbo& fbo, const int32_t attachmentNumber ) {
+void GfxAPI::Rbo::attachToFbo( Fbo& fbo, const int32_t attachmentNumber ) {
     fbo.bind( true );
     if (mDesc.semantics == eSemantics::color) {
         glFramebufferRenderbuffer( GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachmentNumber, GL_RENDERBUFFER, static_cast<GLuint>(mHandle) );
@@ -32,7 +30,7 @@ void Rbo::attachToFbo( Fbo& fbo, const int32_t attachmentNumber ) {
     }
 }
 
-Rbo::~Rbo() {
+GfxAPI::Rbo::~Rbo() {
     glDeleteRenderbuffers( 1, reinterpret_cast<GLuint*>( &mHandle ) );
 }
 

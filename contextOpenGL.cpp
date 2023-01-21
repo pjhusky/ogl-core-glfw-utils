@@ -26,8 +26,6 @@ extern "C" {
 #endif
 #endif
 
-using namespace GfxAPI;
-
 namespace {
     static void framebufferSizeCallback( GLFWwindow* window, int width, int height ) {
         printf( "framebufferSizeCallback: %d x %d\n", width, height ); fflush( stdout );
@@ -99,15 +97,15 @@ namespace {
 #endif
 } // namespace
 
-ContextOpenGL::ContextOpenGL() 
+GfxAPI::ContextOpenGL::ContextOpenGL()
     : mpWindow( nullptr ) 
 {}
 
-ContextOpenGL::~ContextOpenGL() {
+GfxAPI::ContextOpenGL::~ContextOpenGL() {
     glfwTerminate();
 }
 
-const eRetVal ContextOpenGL::init( const ContextOpenGL::Settings_t& settings ) {
+const GfxAPI::eRetVal GfxAPI::ContextOpenGL::init( const ContextOpenGL::Settings_t& settings ) {
 
     //ImGui_ImplWin32_EnableDpiAwareness();
 
