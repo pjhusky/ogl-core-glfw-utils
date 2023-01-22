@@ -1,5 +1,8 @@
 #include "contextOpenGL.h"
 
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
 #if defined( VERBOSE_GFX_DEBUG )
     #include <iostream>
 #endif
