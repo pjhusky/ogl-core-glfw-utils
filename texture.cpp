@@ -211,6 +211,9 @@ void GfxAPI::Texture::setWrapModeForDimension( GfxAPI::eBorderMode borderMode, u
     case eBorderMode::clamp:
         glBorderMode = GL_CLAMP_TO_BORDER;
         break;
+    case eBorderMode::clampToEdge:
+        glBorderMode = GL_CLAMP_TO_EDGE;
+        break;
     case eBorderMode::mirrorRepeat:
         glBorderMode = GL_MIRRORED_REPEAT;
         break;

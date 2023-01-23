@@ -27,6 +27,7 @@ namespace GfxAPI {
 
     enum class eBorderMode {
         clamp,
+        clampToEdge,
         repeat,
         mirrorRepeat,
     };
