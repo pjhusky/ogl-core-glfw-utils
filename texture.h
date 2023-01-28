@@ -54,7 +54,7 @@ namespace GfxAPI {
         void unbindFromTexUnit( /* const int32_t texUnit */ );
         void unbindDepthForVisFromTexUnit( /* const int32_t texUnit */ );
         void createMipmaps();
-        void uploadData( const void* pData, uint32_t format, uint32_t type, uint32_t mipLvl );
+        void uploadData( const void* pData, uint32_t format, uint32_t type, int32_t mipLvl );
 
         void setWrapModeForDimension( eBorderMode borderMode, uint32_t dim );
 

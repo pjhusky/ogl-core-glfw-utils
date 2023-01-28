@@ -42,6 +42,9 @@ GfxAPI::eRetVal GfxAPI::Texture::create( const Desc_t& desc ) {
     case eChannelType::i16:
         dataPtrType = GL_SHORT;
         break;
+    case eChannelType::u16:
+        dataPtrType = GL_UNSIGNED_SHORT;
+        break;
     case eChannelType::i32:
         dataPtrType = GL_INT;
         break;
@@ -176,10 +179,11 @@ void GfxAPI::Texture::createMipmaps() {
     glGenerateMipmap( mTexTarget );
 }
 
-void GfxAPI::Texture::uploadData( const void* pData, uint32_t format, uint32_t type, uint32_t mipLvl ) {
+void GfxAPI::Texture::uploadData( const void* pData, uint32_t format, uint32_t type, int32_t mipLvl ) {
     glCheckError();
     this->bindToTexUnit( 0 );
     glCheckError();
+    glPixelStorei( GL_UNPACK_ALIGNMENT, 1 ); // needed for RGB images with odd width
     if (mTexTarget == GL_TEXTURE_2D) {
         glTexSubImage2D( mTexTarget, mipLvl, 0, 0, mDesc.texDim[0], mDesc.texDim[1], format, type, pData );
     } else if (mTexTarget == GL_TEXTURE_3D) {

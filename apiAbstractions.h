@@ -9,8 +9,9 @@ namespace GfxAPI {
 
     enum class eChannelType {
         i8,
-        //u8,
+        u8,
         i16,
+        u16,
         i32,
         f16,
         f32,
