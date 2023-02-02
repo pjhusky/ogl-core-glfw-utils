@@ -36,7 +36,6 @@ namespace GfxAPI {
             return matrix[0].data();
         }
 
-
         enum class eShaderStage {
             VS,
             GS,

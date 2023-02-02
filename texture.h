@@ -21,20 +21,6 @@ namespace GfxAPI {
             eChannelType        channelType;
             eSemantics          semantics;
             bool                isMipMapped;
-
-            // Desc_t()
-
-            // Desc_t( const linAlg::i32vec3_t& in_texDim,
-            //         const int32_t            in_numChannels,
-            //         const eChannelType       in_channelType,
-            //         const eSemantics         in_semantics,
-            //         const bool               in_isMipMapped )
-            //     : texDim( in_texDim )
-            //     , numChannels( in_numChannels )
-            //     , channelType( in_channelType )
-            //     , semantics( in_semantics )
-            //     , isMipMapped( in_isMipMapped )
-            // {}
         };
 
         Texture() { commonCtor(); }
@@ -43,7 +29,6 @@ namespace GfxAPI {
 
         eRetVal create( const Desc_t& desc );
         eRetVal destroy();
-
 
         Desc_t desc() const { return mDesc; }
 

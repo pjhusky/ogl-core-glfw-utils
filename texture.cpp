@@ -29,7 +29,6 @@ GfxAPI::eRetVal GfxAPI::Texture::create( const Desc_t& desc ) {
 
     glGenTextures( 1, reinterpret_cast< GLuint* >( &mHandle ) );
 
-
     int32_t dataPtrFormat = 
         ( ( mDesc.numChannels == 1 ) ? GL_RED : ( ( mDesc.numChannels == 2 ) ? GL_RG : ( ( mDesc.numChannels == 3 ) ? GL_RGB : GL_RGBA ) ) );
     

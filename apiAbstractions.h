@@ -33,11 +33,6 @@ namespace GfxAPI {
         mirrorRepeat,
     };
 
-    // enum class eCompareMode {
-    //     refToTexture,
-    //     none
-    // };
-
     int32_t toApiChannelType( const eChannelType channelType, const int32_t numChannels );
 }
 

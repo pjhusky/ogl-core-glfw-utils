@@ -19,7 +19,6 @@ namespace GfxAPI {
 
         void bind( const bool shouldBind );
 
-
     private:
         handle_t        mHandle;
         const Desc      mDesc;
