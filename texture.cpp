@@ -35,6 +35,8 @@ GfxAPI::eRetVal GfxAPI::Texture::create( const Desc_t& desc ) {
     int32_t dataPtrType = GL_UNSIGNED_BYTE; 
     switch (mDesc.channelType) {
     case eChannelType::f16:
+        dataPtrType = GL_HALF_FLOAT;
+        break;
     case eChannelType::f32:
         dataPtrType = GL_FLOAT;
         break;
