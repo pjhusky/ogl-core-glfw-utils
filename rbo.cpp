@@ -6,6 +6,7 @@
 #include "checkErrorGL.h"
 
 #include <string.h> // for memcpy & memset
+#include <assert.h>
 #include <glad/glad.h>
 
 
@@ -26,7 +27,23 @@ void GfxAPI::Rbo::attachToFbo( Fbo& fbo, const int32_t attachmentNumber ) {
     if (mDesc.semantics == eSemantics::color) {
         glFramebufferRenderbuffer( GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + attachmentNumber, GL_RENDERBUFFER, static_cast<GLuint>(mHandle) );
     } else {
-        glFramebufferRenderbuffer( GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, static_cast<GLuint>(mHandle) );
+        const bool isDepthAttachment = ( (static_cast<uint32_t>(mDesc.semantics) & static_cast<uint32_t>(eSemantics::depth)) != 0u );
+        const bool isStencilAttachment = ( (static_cast<uint32_t>(mDesc.semantics) & static_cast<uint32_t>(eSemantics::stencil)) != 0u );
+        uint32_t attachmentType = 0;
+
+        if ( isDepthAttachment ) {
+            if ( isStencilAttachment) {
+                attachmentType = GL_DEPTH_STENCIL_ATTACHMENT;
+            } else {
+                attachmentType = GL_DEPTH_ATTACHMENT;
+            }
+        } else if (isStencilAttachment) {
+            attachmentType = GL_STENCIL_ATTACHMENT;
+        } else {
+            assert( false ); 
+        }
+
+        glFramebufferRenderbuffer( GL_DRAW_FRAMEBUFFER, attachmentType, GL_RENDERBUFFER, static_cast<GLuint>(mHandle) );
     }
 }
 

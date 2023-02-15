@@ -35,12 +35,12 @@ Fbo::Fbo( const Fbo::Desc& desc )
         const bool isStencilAttachment = ( (static_cast<uint32_t>(mDesc.depthStencilAttachment->desc().semantics) & static_cast<uint32_t>(eSemantics::stencil)) != 0u );
         if ( isDepthAttachment ) {
             if ( isStencilAttachment) {
-                glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, static_cast<GLuint>(mDesc.depthStencilAttachment->handle()) );
+                glFramebufferTexture( GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, static_cast<GLuint>(mDesc.depthStencilAttachment->handle()) );
             } else {
-                glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, static_cast<GLuint>(mDesc.depthStencilAttachment->handle()) );
+                glFramebufferTexture( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, static_cast<GLuint>(mDesc.depthStencilAttachment->handle()) );
             }
         } else if (isStencilAttachment) {
-            glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, static_cast<GLuint>(mDesc.depthStencilAttachment->handle()) );
+            glFramebufferTexture( GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, static_cast<GLuint>(mDesc.depthStencilAttachment->handle()) );
         } else {
             assert( false ); 
         }
@@ -57,6 +57,7 @@ Fbo::Fbo( const Fbo::Desc& desc )
 
 void Fbo::bind( const bool shouldBind ) {
     if (shouldBind) {
+        //!!! glViewport( 0, 0, fbWidth, fbHeight ); // set to render-target size
         glBindFramebuffer( GL_FRAMEBUFFER, static_cast<GLuint>(mHandle) );
     } else {
         glBindFramebuffer( GL_FRAMEBUFFER, 0 );

@@ -9,6 +9,7 @@
 
 namespace GfxAPI {
     struct Texture;
+    struct Rbo;
 
     struct Fbo {
 
