@@ -13,6 +13,7 @@ namespace GfxAPI {
         i16,
         u16,
         i32,
+        u32,
         f16,
         f32,
         i24depth,
