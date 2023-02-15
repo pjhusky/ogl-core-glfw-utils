@@ -34,6 +34,12 @@ namespace GfxAPI {
         mirrorRepeat,
     };
 
+    enum class eMapMode {
+        readOnly,
+        writeOnly,
+        readWrite,
+    };
+
     int32_t toApiChannelType( const eChannelType channelType, const int32_t numChannels );
 }
 

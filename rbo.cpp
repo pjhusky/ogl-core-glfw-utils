@@ -20,6 +20,7 @@ GfxAPI::Rbo::Rbo( const Rbo::Desc& desc )
     glGenRenderbuffers( 1, reinterpret_cast<GLuint*>( &mHandle ) );
     glBindRenderbuffer( GL_RENDERBUFFER, static_cast<GLuint>( mHandle ) );
     glRenderbufferStorage( GL_RENDERBUFFER, toApiChannelType( mDesc.channelType, mDesc.numChannels ), mDesc.w, mDesc.h );
+    glBindRenderbuffer( GL_RENDERBUFFER, 0 );
 }
 
 void GfxAPI::Rbo::attachToFbo( Fbo& fbo, const int32_t attachmentNumber ) {
