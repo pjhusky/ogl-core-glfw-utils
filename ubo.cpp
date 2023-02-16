@@ -17,7 +17,8 @@ GfxAPI::Ubo::Ubo( const Ubo::Desc& desc )
     // this step may only "fill" some of the allocated memory cell for the mHandle
     glGenBuffers( 1, reinterpret_cast<GLuint*>( &mHandle ) );
     glBindBuffer( GL_UNIFORM_BUFFER, static_cast<GLuint>( mHandle ) );
-    glBufferData( GL_UNIFORM_BUFFER, mDesc.numBytes, NULL, GL_STATIC_DRAW );
+    //glBufferData( GL_UNIFORM_BUFFER, mDesc.numBytes, NULL, GL_STATIC_DRAW );
+    glBufferData( GL_UNIFORM_BUFFER, mDesc.numBytes, NULL, GL_DYNAMIC_DRAW );
 
     bind(false);
 }
