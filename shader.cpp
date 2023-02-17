@@ -64,6 +64,11 @@ GfxAPI::Shader::~Shader() {
         glDeleteShader( static_cast<GLuint>( shaderStageObject.second ) );
     }
     glDeleteProgram( static_cast<GLuint>( mShaderProgram ) );
+
+    mShaderStageDesc.clear();
+    mShaderStageObjects.clear();
+    mShaderProgram = shaderProgramHandle_t{ -1 };
+    mIsBound = false;
 }
 
 void GfxAPI::Shader::addShaderStage( const Shader::eShaderStage shaderStage, const std::string& shaderStr ) {
