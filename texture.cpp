@@ -232,6 +232,36 @@ void GfxAPI::Texture::setWrapModeForDimension( GfxAPI::eBorderMode borderMode, u
     glCheckError();
 }
 
+void GfxAPI::Texture::setFilterMode( const eFilterMode minFilter, const eFilterMode magFilter, const eFilterMode mipFilter ) {
+    int32_t glMinFilter;
+    if (minFilter == GfxAPI::eFilterMode::box) {
+        if (mDesc.isMipMapped) {
+            if (mipFilter == eFilterMode::linear) {
+                glMinFilter = GL_NEAREST_MIPMAP_LINEAR;
+            } else {
+                glMinFilter = GL_NEAREST_MIPMAP_NEAREST;
+            }
+        } else {
+            glMinFilter = GL_NEAREST;
+        }
+    } else {
+        if (mDesc.isMipMapped) {
+            if (mipFilter == eFilterMode::linear) {
+                glMinFilter = GL_LINEAR_MIPMAP_LINEAR;
+            } else {
+                glMinFilter = GL_LINEAR_MIPMAP_NEAREST;
+            }
+        } else {
+            glMinFilter = GL_LINEAR;
+        }
+    }
+
+    this->bindToTexUnit( 0 );
+    glTexParameteri( mTexTarget, GL_TEXTURE_MIN_FILTER, glMinFilter );
+    glTexParameteri( mTexTarget, GL_TEXTURE_MAG_FILTER, (magFilter == eFilterMode::box) ? GL_NEAREST : GL_LINEAR );
+    this->unbindFromTexUnit();
+}
+
 void GfxAPI::Texture::unbindAllTextures() {
     int32_t maxTextureImageUnits;
     glGetIntegerv( GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureImageUnits );

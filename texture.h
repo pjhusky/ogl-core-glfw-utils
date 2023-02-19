@@ -42,6 +42,7 @@ namespace GfxAPI {
         void uploadData( const void* pData, uint32_t format, uint32_t type, int32_t mipLvl );
 
         void setWrapModeForDimension( eBorderMode borderMode, uint32_t dim );
+        void setFilterMode( const eFilterMode minFilter, const eFilterMode magFilter, const eFilterMode mipFilter );
 
         handle_t handle() const { return mHandle; }
 

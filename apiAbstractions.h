@@ -34,6 +34,11 @@ namespace GfxAPI {
         mirrorRepeat,
     };
 
+    enum class eFilterMode {
+        box,
+        linear,
+    };
+
     enum class eMapMode {
         readOnly,
         writeOnly,
