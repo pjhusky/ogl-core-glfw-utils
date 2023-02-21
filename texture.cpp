@@ -213,7 +213,7 @@ void GfxAPI::Texture::setWrapModeForDimension( GfxAPI::eBorderMode borderMode, u
 
     uint32_t glBorderMode = GL_CLAMP_TO_BORDER;
     switch (borderMode) {
-    case eBorderMode::clamp:
+    case eBorderMode::clampToBorder:
         glBorderMode = GL_CLAMP_TO_BORDER;
         break;
     case eBorderMode::clampToEdge:
@@ -230,6 +230,10 @@ void GfxAPI::Texture::setWrapModeForDimension( GfxAPI::eBorderMode borderMode, u
     glTexParameteri( mTexTarget, glDim, glBorderMode );
     this->unbindFromTexUnit();
     glCheckError();
+}
+
+void GfxAPI::Texture::setBorderColor( const std::array<float, 4>& borderColor ) {
+    glTexParameterfv( mTexTarget, GL_TEXTURE_BORDER_COLOR, borderColor.data() );
 }
 
 void GfxAPI::Texture::setFilterMode( const eFilterMode minFilter, const eFilterMode magFilter, const eFilterMode mipFilter ) {
