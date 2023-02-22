@@ -44,6 +44,7 @@ void* GfxAPI::Ubo::map( const GfxAPI::eMapMode mapMode ) {
     } else if (mapMode == GfxAPI::eMapMode::readWrite) {
         return glMapBuffer( GL_UNIFORM_BUFFER, GL_READ_WRITE );
     }
+    return nullptr;
 }
 
 bool GfxAPI::Ubo::unmap() {
