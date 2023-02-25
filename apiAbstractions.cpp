@@ -39,3 +39,34 @@ int32_t GfxAPI::toApiChannelType( const eChannelType channelType, const int32_t 
     return -1;
 }
 
+int32_t GfxAPI::toApiFormatFromNumChannels( const int32_t numChannels ) {
+    return ((numChannels == 1) ? GL_RED : ((numChannels == 2) ? GL_RG : ((numChannels == 3) ? GL_RGB : GL_RGBA)));
+}
+
+int32_t GfxAPI::toApiDataChannelType( const eChannelType channelType ) {
+    int32_t dataPtrType = GL_UNSIGNED_BYTE; 
+    switch (channelType) {
+    case eChannelType::i8:
+        dataPtrType = GL_BYTE;
+        break;
+    case eChannelType::f16:
+        dataPtrType = GL_HALF_FLOAT;
+        break;
+    case eChannelType::f32:
+        dataPtrType = GL_FLOAT;
+        break;
+    case eChannelType::i16:
+        dataPtrType = GL_SHORT;
+        break;
+    case eChannelType::u16:
+        dataPtrType = GL_UNSIGNED_SHORT;
+        break;
+    case eChannelType::i32:
+        dataPtrType = GL_INT;
+        break;
+    case eChannelType::u32:
+        dataPtrType = GL_UNSIGNED_INT;
+        break;
+    }
+    return dataPtrType;
+}

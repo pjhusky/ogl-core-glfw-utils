@@ -46,6 +46,8 @@ namespace GfxAPI {
     };
 
     int32_t toApiChannelType( const eChannelType channelType, const int32_t numChannels );
+    int32_t toApiFormatFromNumChannels( const int32_t numChannels );
+    int32_t toApiDataChannelType( const eChannelType channelType );
 }
 
 #endif // _API_ABSTRACTIONS_H_616e284b_9c0b_445d_8c14_d8323b01a2d4

@@ -29,27 +29,8 @@ GfxAPI::eRetVal GfxAPI::Texture::create( const Desc_t& desc ) {
 
     glGenTextures( 1, reinterpret_cast< GLuint* >( &mHandle ) );
 
-    int32_t dataPtrFormat = 
-        ( ( mDesc.numChannels == 1 ) ? GL_RED : ( ( mDesc.numChannels == 2 ) ? GL_RG : ( ( mDesc.numChannels == 3 ) ? GL_RGB : GL_RGBA ) ) );
-    
-    int32_t dataPtrType = GL_UNSIGNED_BYTE; 
-    switch (mDesc.channelType) {
-    case eChannelType::f16:
-        dataPtrType = GL_HALF_FLOAT;
-        break;
-    case eChannelType::f32:
-        dataPtrType = GL_FLOAT;
-        break;
-    case eChannelType::i16:
-        dataPtrType = GL_SHORT;
-        break;
-    case eChannelType::u16:
-        dataPtrType = GL_UNSIGNED_SHORT;
-        break;
-    case eChannelType::i32:
-        dataPtrType = GL_INT;
-        break;
-    }
+    int32_t dataPtrFormat = toApiFormatFromNumChannels( desc.numChannels );
+    int32_t dataPtrType = toApiDataChannelType( desc.channelType );
 
     if ( ( static_cast< uint32_t >( mDesc.semantics ) & static_cast< uint32_t >( eSemantics::depth ) ) != 0 ) { 
         dataPtrFormat = GL_DEPTH_COMPONENT; 
