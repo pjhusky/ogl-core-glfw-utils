@@ -60,10 +60,12 @@ GfxAPI::Shader::Shader()
 {}
 
 GfxAPI::Shader::~Shader() {
-    for ( const auto& shaderStageObject : mShaderStageObjects ) {
-        glDeleteShader( static_cast<GLuint>( shaderStageObject.second ) );
+    if (!mShaderStageObjects.empty()) {
+        for (const auto& shaderStageObject : mShaderStageObjects) {
+            glDeleteShader( static_cast<GLuint>(shaderStageObject.second) );
+        }
+        glDeleteProgram( static_cast<GLuint>(mShaderProgram) );
     }
-    glDeleteProgram( static_cast<GLuint>( mShaderProgram ) );
 
     mShaderStageDesc.clear();
     mShaderStageObjects.clear();
