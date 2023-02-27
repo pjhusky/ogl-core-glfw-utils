@@ -19,6 +19,8 @@ namespace GfxAPI {
         using vec3_t = std::array<float, 3>;
         using vec4_t = std::array<float, 4>;
 
+        using ivec2_t = std::array<int32_t, 2>;
+
         static constexpr size_t numRows_mat2x2 = 2;
         using mat2_t = std::array< vec2_t, numRows_mat2x2 >; // row-major storage, 2 rows, 2 columns
 
@@ -64,6 +66,8 @@ namespace GfxAPI {
         eRetVal setVec3( const std::string& uniformVarName, const vec3_t& val ) const;
         eRetVal setVec4( const std::string& uniformVarName, const vec4_t& val ) const;
         eRetVal setVec4Array( const std::string& uniformVarName, const vec4_t* const pVec4Array, const size_t numVec4s ) const;
+
+        eRetVal setIvec2( const std::string& uniformVarName, const ivec2_t& val ) const;
 
         eRetVal setMat2( const std::string& uniformVarName, const mat2_t& matrix ) const;
         eRetVal setMat3( const std::string& uniformVarName, const mat3_t& matrix ) const;

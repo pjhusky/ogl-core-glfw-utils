@@ -158,6 +158,13 @@ GfxAPI::eRetVal GfxAPI::Shader::setVec4Array( const std::string& uniformVarName,
     return eRetVal::OK;
 }
 
+GfxAPI::eRetVal GfxAPI::Shader::setIvec2( const std::string& uniformVarName, const ivec2_t& val ) const {
+    const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
+    if (uniformLocation < 0) { return eRetVal::ERROR; }// (uniformVarName + " not found in shader!"); }
+    glUniform2iv( uniformLocation, 1, val.data() );
+    return eRetVal::OK;
+}
+
 GfxAPI::eRetVal GfxAPI::Shader::setMat2( const std::string& uniformVarName, const mat2_t& matrix ) const {
     const float *const pMatrix = getMatrixPtr( matrix );
     const int32_t uniformLocation = glGetUniformLocation( static_cast<GLuint>( mShaderProgram ), uniformVarName.c_str() );
