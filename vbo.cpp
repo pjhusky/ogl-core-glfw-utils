@@ -7,19 +7,27 @@
 #include <assert.h>
 #include <glad/glad.h>
 
-
-GfxAPI::Vbo::Vbo( const Vbo::Desc& desc )
-    : mDesc( desc ) {
-
+void GfxAPI::Vbo::commonCtor() {
     // clear the entire handle mem, as the impl may only use a part of it, leaving the rest uninitialized otherwise
     memset( &mHandle, 0, sizeof( mHandle ) ); 
 
     // this step may only "fill" some of the allocated memory cell for the mHandle
     glGenBuffers( 1, reinterpret_cast<GLuint*>( &mHandle ) );
+}
+
+GfxAPI::Vbo::Vbo() {
+    commonCtor();
+}
+
+GfxAPI::Vbo::Vbo( const Vbo::Desc& desc )
+    : mDesc( desc ) {
+    commonCtor();
+    create( desc );
+}
+
+void GfxAPI::Vbo::create( const Vbo::Desc& desc ) {
     bind( true );
-
     glBufferData( GL_ARRAY_BUFFER, mDesc.numBytes, NULL, GL_STATIC_DRAW );
-
     bind(false);
 }
 

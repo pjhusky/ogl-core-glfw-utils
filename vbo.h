@@ -11,8 +11,13 @@ namespace GfxAPI {
             uint32_t        numBytes;
         };
 
+        
+        Vbo();
         explicit Vbo( const Desc& desc );
+
         ~Vbo();
+
+        void create( const Desc& desc );
 
         void bind( const bool shouldBind );
         handle_t handle() const { return mHandle; }
@@ -22,6 +27,9 @@ namespace GfxAPI {
         bool unmap();
 
     private:
+
+        void commonCtor();
+
         handle_t        mHandle;
         const Desc      mDesc;
         bool            mIsBound;

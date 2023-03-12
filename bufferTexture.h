@@ -23,6 +23,7 @@ namespace GfxAPI {
 
         void attachVbo( Vbo* pVbo );
         void detachVbo();
+        Vbo* attachedVbo() const { return mpBackingVbo; }
 
         void* map( const GfxAPI::eMapMode mapMode );
         bool unmap();
