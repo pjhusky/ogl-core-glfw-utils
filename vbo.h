@@ -11,8 +11,7 @@ namespace GfxAPI {
             uint32_t        numBytes;
         };
 
-        
-        Vbo();
+        //Vbo();
         explicit Vbo( const Desc& desc );
 
         ~Vbo();

@@ -15,9 +15,9 @@ void GfxAPI::Vbo::commonCtor() {
     glGenBuffers( 1, reinterpret_cast<GLuint*>( &mHandle ) );
 }
 
-GfxAPI::Vbo::Vbo() {
-    commonCtor();
-}
+//GfxAPI::Vbo::Vbo() {
+//    commonCtor();
+//}
 
 GfxAPI::Vbo::Vbo( const Vbo::Desc& desc )
     : mDesc( desc ) {
