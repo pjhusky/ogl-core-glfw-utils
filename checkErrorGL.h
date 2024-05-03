@@ -7,7 +7,16 @@ namespace GfxAPI {
     int32_t glCheckError_( const char *file, const int line );
 }
 
-#if defined( VERBOSE_GFX_DEBUG )
+
+#ifndef VERBOSE_GFX_DEBUG
+    #if defined( DEBUG )
+        #define VERBOSE_GFX_DEBUG   1
+    #else
+        #define VERBOSE_GFX_DEBUG   0
+    #endif
+#endif
+
+#if ( VERBOSE_GFX_DEBUG != 0 )
     #define glCheckError() GfxAPI::glCheckError_(__FILE__, __LINE__) 
 #else
     #define glCheckError()

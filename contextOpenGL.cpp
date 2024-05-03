@@ -3,7 +3,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-#if defined( VERBOSE_GFX_DEBUG )
+#if ( VERBOSE_GFX_DEBUG != 0 )
     #include <iostream>
 #endif
 
@@ -25,7 +25,7 @@ extern "C" {
 namespace {
     static void framebufferSizeCallback( GLFWwindow* window, int width, int height ) {
 
-    #if defined( VERBOSE_GFX_DEBUG )
+    #if ( VERBOSE_GFX_DEBUG != 0 )
         printf( "framebufferSizeCallback: %d x %d\n", width, height ); fflush( stdout );
     #endif
 
@@ -43,7 +43,7 @@ namespace {
 
 // https://vallentin.dev/2015/02/23/debugging-opengl
 
-#if defined( VERBOSE_GFX_DEBUG ) //&& !defined( __APPLE__ ) 
+#if ( VERBOSE_GFX_DEBUG != 0 ) //&& !defined( __APPLE__ ) 
     static void APIENTRY glDebugOutput(GLenum source, 
                             GLenum type, 
                             unsigned int id, 
@@ -139,7 +139,7 @@ const GfxAPI::eRetVal GfxAPI::ContextOpenGL::init( const ContextOpenGL::Settings
     //A value of GLFW_DONT_CARE means the highest available refresh rate will be used.This hint is ignored for windowed mode windows.
     glfwWindowHint( GLFW_REFRESH_RATE, GLFW_DONT_CARE );
 
-#if defined( VERBOSE_GFX_DEBUG ) // && !defined( __APPLE__ ) 
+#if ( VERBOSE_GFX_DEBUG != 0 ) // && !defined( __APPLE__ ) 
     printf( "VERBOSE_GFX_DEBUG is defined!\n" ); fflush( stdout );
     glfwWindowHint( GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE );
 #else
@@ -158,7 +158,7 @@ const GfxAPI::eRetVal GfxAPI::ContextOpenGL::init( const ContextOpenGL::Settings
         return eRetVal::ERROR;//( "Failed to initialize GLAD" );
     }
 
-#if defined( VERBOSE_GFX_DEBUG ) // && !defined( __APPLE__ ) 
+#if ( VERBOSE_GFX_DEBUG != 0 ) // && !defined( __APPLE__ ) 
     // if ( ogl_ext_KHR_debug ) {
     //     std::cout << "KHR_debug supported" << std::endl << std::flush;
     // }
@@ -195,7 +195,7 @@ const GfxAPI::eRetVal GfxAPI::ContextOpenGL::init( const ContextOpenGL::Settings
     {
         int32_t w, h;
         glfwGetWindowSize( reinterpret_cast< GLFWwindow* >( mpWindow ), &w, &h );
-    #if defined( VERBOSE_GFX_DEBUG )
+    #if ( VERBOSE_GFX_DEBUG != 0 )
         printf( "glfwGetWindowSize(): window created: %d x %d\n", w, h ); fflush( stdout );
     #endif
 
@@ -203,7 +203,7 @@ const GfxAPI::eRetVal GfxAPI::ContextOpenGL::init( const ContextOpenGL::Settings
 
         float sx, sy;
         glfwGetWindowContentScale( reinterpret_cast< GLFWwindow* >( mpWindow ), &sx, &sy );
-    #if defined( VERBOSE_GFX_DEBUG )
+    #if ( VERBOSE_GFX_DEBUG != 0 )
         printf( "glfwGetWindowContentScale(): window scale: %f x %f\n", sx, sy ); fflush( stdout );
         printf( "scaled window dimensions %f x %f\n", settings.windowW * sx, settings.windowH * sy );
     #endif
@@ -211,7 +211,7 @@ const GfxAPI::eRetVal GfxAPI::ContextOpenGL::init( const ContextOpenGL::Settings
         int32_t fbWidth, fbHeight;
         glfwGetFramebufferSize( reinterpret_cast< GLFWwindow* >( mpWindow ), &fbWidth, &fbHeight);
 
-    #if defined( VERBOSE_GFX_DEBUG )
+    #if ( VERBOSE_GFX_DEBUG != 0 )
         printf( "glfwGetFramebufferSize(): %d x %d\n", fbWidth, fbHeight );
     #endif
 
